@@ -20,29 +20,27 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGASID_H
-#define VEGASID_H
+#ifndef VEGAS_COORDINATOR_H
+#define VEGAS_COORDINATOR_H
 
-#include "ManagerId.h"
+// Local
+#include "VegasCoordinatorId.h"
+// YGOR
+#include "Control.h"
 
-struct VegasId
+class Synthesizer;
+
+class VegasCoordinator : public Coordinator
 {
-    enum index
-    {
-        // Spectrometer control registers
-        acc_len = ManagerId::ParameterCnt,
-        arm,
-        adc_snap0_ctrl,
-        adc_snap1_ctrl,
-        dest_ip,
-        dest_ip_sel,
-        dest_port,
-        dest_port_sel,
-        tint,
-        sync_period,
-        sync_period_sel,
-        ParameterCnt
-    };
+public:
+    VegasCoordinator();
+    ~VegasCoordinator();
+
+private:
+    PanelServer *server[VegasCoordinatorId::childCount];
+    Manager *childManager[VegasCoordinatorId::childCount];
+
+    Synthesizer *m_clk;
 };
 
-#endif//VEGASID_H
+#endif//VEGAS_COORDINATOR_H

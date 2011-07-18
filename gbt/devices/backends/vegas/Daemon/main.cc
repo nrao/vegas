@@ -23,10 +23,11 @@
 #include "auto_ptr.h"
 #include "DeviceAccessContainer.h"
 #include "gbtRpcNumbers.h"
+#include "GbtMsg.h"
 #include "PanelServer.h"
 #include "str.h"
 #include "Thread.h"
-#include "Vegas.h"
+#include "VegasCoordinator.h"
 
 #include <signal.h>
 #include <iostream>
@@ -36,9 +37,9 @@ using std::cerr;
 using std::endl;
 
 char const *manager_name = "VEGAS";
-unsigned long rpc_number = VEGAS_PANEL;
+unsigned long rpc_number = VegasCoordinator_PANEL;
 
-auto_pointer<Vegas> manager;
+auto_pointer<VegasCoordinator> manager;
 auto_pointer<PanelServer> server;
 
 void InitManager();
@@ -89,7 +90,7 @@ void InitManager()
         assert(0);
     }
 
-    manager.reset(new Vegas);
+    manager.reset(new VegasCoordinator);
     server.reset(new PanelServer(manager.get(), rpc_number));
     cerr << "Initializing " << manager_name << " Manager " << endl;
     manager->init();

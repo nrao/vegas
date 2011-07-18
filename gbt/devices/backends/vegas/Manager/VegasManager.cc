@@ -21,26 +21,26 @@
 //#	Green Bank, WV 24944-0002 USA
 
 // Local
-#include "Vegas.h"
-#include "VegasId.h"
+#include "VegasManager.h"
+#include "VegasManagerId.h"
 
 
 //---------//
 // acc_len //
 //---------//
 void
-Vegas::acc_lenDep(int &acc_len)
+VegasManager::acc_lenDep(int &acc_len)
 {
 }
 
 int
-Vegas::acc_lenChk(const int &acc_len)
+VegasManager::acc_lenChk(const int &acc_len)
 {
     return 1;
 }
 
 int
-Vegas::acc_lenAct(const int &acc_len)
+VegasManager::acc_lenAct(const int &acc_len)
 {
     return 1;
 }
@@ -49,12 +49,12 @@ Vegas::acc_lenAct(const int &acc_len)
 // arm //
 //-----//
 void
-Vegas::armDep(int &arm)
+VegasManager::armDep(int &arm)
 {
 }
 
 int
-Vegas::armChk(const int &arm)
+VegasManager::armChk(const int &arm)
 {
     if((arm < 0) || (arm > 1))
     {
@@ -64,7 +64,7 @@ Vegas::armChk(const int &arm)
 }
 
 int
-Vegas::armAct(const int &arm)
+VegasManager::armAct(const int &arm)
 {
     return 1;
 }
@@ -73,12 +73,12 @@ Vegas::armAct(const int &arm)
 // adc_snap0_ctrl //
 //----------------//
 void
-Vegas::adc_snap0_ctrlDep(int &adc_snap0_ctrl)
+VegasManager::adc_snap0_ctrlDep(int &adc_snap0_ctrl)
 {
 }
 
 int
-Vegas::adc_snap0_ctrlChk(const int &adc_snap0_ctrl)
+VegasManager::adc_snap0_ctrlChk(const int &adc_snap0_ctrl)
 {
     if((adc_snap0_ctrl < 0) || (adc_snap0_ctrl > 1))
     {
@@ -88,7 +88,7 @@ Vegas::adc_snap0_ctrlChk(const int &adc_snap0_ctrl)
 }
 
 int
-Vegas::adc_snap0_ctrlAct(const int &adc_snap0_ctrl)
+VegasManager::adc_snap0_ctrlAct(const int &adc_snap0_ctrl)
 {
     return 1;
 }
@@ -97,12 +97,12 @@ Vegas::adc_snap0_ctrlAct(const int &adc_snap0_ctrl)
 // adc_snap1_ctrl //
 //----------------//
 void
-Vegas::adc_snap1_ctrlDep(int &adc_snap1_ctrl)
+VegasManager::adc_snap1_ctrlDep(int &adc_snap1_ctrl)
 {
 }
 
 int
-Vegas::adc_snap1_ctrlChk(const int &adc_snap1_ctrl)
+VegasManager::adc_snap1_ctrlChk(const int &adc_snap1_ctrl)
 {
     if((adc_snap1_ctrl < 0) || (adc_snap1_ctrl > 1))
     {
@@ -112,7 +112,7 @@ Vegas::adc_snap1_ctrlChk(const int &adc_snap1_ctrl)
 }
 
 int
-Vegas::adc_snap1_ctrlAct(const int &adc_snap1_ctrl)
+VegasManager::adc_snap1_ctrlAct(const int &adc_snap1_ctrl)
 {
     return 1;
 }
@@ -121,18 +121,18 @@ Vegas::adc_snap1_ctrlAct(const int &adc_snap1_ctrl)
 // dest_ip //
 //---------//
 void
-Vegas::dest_ipDep(int &dest_ip)
+VegasManager::dest_ipDep(int &dest_ip)
 {
 }
 
 int
-Vegas::dest_ipChk(const int &dest_ip)
+VegasManager::dest_ipChk(const int &dest_ip)
 {
     return 1;
 }
 
 int
-Vegas::dest_ipAct(const int &dest_ip)
+VegasManager::dest_ipAct(const int &dest_ip)
 {
     return 1;
 }
@@ -141,12 +141,12 @@ Vegas::dest_ipAct(const int &dest_ip)
 // dest_ip_sel //
 //-------------//
 void
-Vegas::dest_ip_selDep(int &dest_ip_sel)
+VegasManager::dest_ip_selDep(int &dest_ip_sel)
 {
 }
 
 int
-Vegas::dest_ip_selChk(const int &dest_ip_sel)
+VegasManager::dest_ip_selChk(const int &dest_ip_sel)
 {
     if((dest_ip_sel < 0) || (dest_ip_sel > 1))
     {
@@ -156,7 +156,7 @@ Vegas::dest_ip_selChk(const int &dest_ip_sel)
 }
 
 int
-Vegas::dest_ip_selAct(const int &dest_ip_sel)
+VegasManager::dest_ip_selAct(const int &dest_ip_sel)
 {
     return 1;
 }
@@ -165,18 +165,18 @@ Vegas::dest_ip_selAct(const int &dest_ip_sel)
 // dest_port //
 //-----------//
 void
-Vegas::dest_portDep(int &dest_port)
+VegasManager::dest_portDep(int &dest_port)
 {
 }
 
 int
-Vegas::dest_portChk(const int &dest_port)
+VegasManager::dest_portChk(const int &dest_port)
 {
     return 1;
 }
 
 int
-Vegas::dest_portAct(const int &dest_port)
+VegasManager::dest_portAct(const int &dest_port)
 {
     return 1;
 }
@@ -185,12 +185,12 @@ Vegas::dest_portAct(const int &dest_port)
 // dest_port_sel //
 //---------------//
 void
-Vegas::dest_port_selDep(int &dest_port_sel)
+VegasManager::dest_port_selDep(int &dest_port_sel)
 {
 }
 
 int
-Vegas::dest_port_selChk(const int &dest_port_sel)
+VegasManager::dest_port_selChk(const int &dest_port_sel)
 {
     if((dest_port_sel < 0) || (dest_port_sel > 1))
     {
@@ -200,7 +200,7 @@ Vegas::dest_port_selChk(const int &dest_port_sel)
 }
 
 int
-Vegas::dest_port_selAct(const int &dest_port_sel)
+VegasManager::dest_port_selAct(const int &dest_port_sel)
 {
     return 1;
 }
@@ -209,18 +209,18 @@ Vegas::dest_port_selAct(const int &dest_port_sel)
 // sync_period //
 //-------------//
 void
-Vegas::sync_periodDep(int &sync_period)
+VegasManager::sync_periodDep(int &sync_period)
 {
 }
 
 int
-Vegas::sync_periodChk(const int &sync_period)
+VegasManager::sync_periodChk(const int &sync_period)
 {
     return 1;
 }
 
 int
-Vegas::sync_periodAct(const int &sync_period)
+VegasManager::sync_periodAct(const int &sync_period)
 {
     return 1;
 }
@@ -229,12 +229,12 @@ Vegas::sync_periodAct(const int &sync_period)
 // sync_period_sel //
 //-----------------//
 void
-Vegas::sync_period_selDep(int &sync_period_sel)
+VegasManager::sync_period_selDep(int &sync_period_sel)
 {
 }
 
 int
-Vegas::sync_period_selChk(const int &sync_period_sel)
+VegasManager::sync_period_selChk(const int &sync_period_sel)
 {
     if((sync_period_sel < 0) || (sync_period_sel > 1))
     {
@@ -244,7 +244,7 @@ Vegas::sync_period_selChk(const int &sync_period_sel)
 }
 
 int
-Vegas::sync_period_selAct(const int &sync_period_sel)
+VegasManager::sync_period_selAct(const int &sync_period_sel)
 {
     return 1;
 }
@@ -253,12 +253,12 @@ Vegas::sync_period_selAct(const int &sync_period_sel)
 // tint //
 //------//
 void
-Vegas::tintDep(double &tint)
+VegasManager::tintDep(double &tint)
 {
 }
 
 int
-Vegas::tintChk(const double &tint)
+VegasManager::tintChk(const double &tint)
 {
     if(tint < 0)
     {
@@ -268,7 +268,7 @@ Vegas::tintChk(const double &tint)
 }
 
 int
-Vegas::tintAct(const double &tint)
+VegasManager::tintAct(const double &tint)
 {
     return 1;
 }
@@ -277,7 +277,7 @@ Vegas::tintAct(const double &tint)
 // constructSamplers //
 //-------------------//
 void
-Vegas::constructSamplers()
+VegasManager::constructSamplers()
 {
     // DeviceAccessContainer *dac = DeviceAccessContainer::instance("VEGAS");
     // float actel_temp;
@@ -289,16 +289,16 @@ Vegas::constructSamplers()
 // monitor //
 //---------//
 void
-Vegas::monitor()
+VegasManager::monitor()
 {
 }
 
 //-------------//
 // Constructor //
 //-------------//
-Vegas::Vegas()
+VegasManager::VegasManager()
     :
-    ManagerSynchronous(VegasId::ParameterCnt, "Vegas", VegasMsg::Vegas)
+    ManagerSynchronous(VegasManagerId::ParameterCnt, "Vegas", VegasMsg::Vegas)
 {
     setParameter(p[ManagerId::debugLevel], ManagerId::NoDebugLevel);
 
@@ -314,7 +314,7 @@ Vegas::Vegas()
 //------------//
 // Destructor //
 //------------//
-Vegas::~Vegas()
+VegasManager::~VegasManager()
 {
     for(int i = ManagerId::ParameterCnt; i < pn; ++i)
     {

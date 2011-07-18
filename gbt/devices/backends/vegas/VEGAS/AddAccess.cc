@@ -22,16 +22,49 @@
 
 #if defined(SOLARIS) || defined(LINUX)
 #include "AddAccess.h"
+#include "BankDDL.h"
+//#include "CoordinatorDDL.h"
 #include "gbtRpcNumbers.h"
 #include "GbtMsg.h"
-#include "VegasDDL.h"
+#include "VegasMsg.h"
 
 DeviceAccess *addAccess(const char *subdevice)
 {
-    ADDACCESS( VEGAS, VEGAS_PANEL,
+    // ADDACCESS( VEGAS, VegasCoordinator_PANEL,
+    //            new CoordinatorControlDDL(VegasMsg::Vegas),
+    //            new CoordinatorMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankA_PANEL,
                localhost, VegasHost,
-               new VegasControlDDL(GbtMsg::Vegas),
-               new VegasMonitorDDL(GbtMsg::Vegas));
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankB_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankC_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankD_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankE_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankF_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankG_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS( VEGAS, VegasBankH_PANEL,
+               localhost, VegasHost,
+               new BankControlDDL(VegasMsg::Vegas),
+               new BankMonitorDDL(VegasMsg::Vegas));
     return 0;
 }
 

@@ -20,41 +20,29 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGASTEST_H
-#define VEGASTEST_H
+#ifndef VEGAS_MANAGER_ID_H
+#define VEGAS_MANAGER_ID_H
 
-#include "VegasManager.h"
+#include "ManagerId.h"
 
-#include <cppunit/extensions/HelperMacros.h>
-
-class VegasTest : public CppUnit::TestCase
+struct VegasManagerId
 {
-    CPPUNIT_TEST_SUITE(VegasTest);
-        CPPUNIT_TEST(test_create_vegas);
-        CPPUNIT_TEST(test_off_on_sequence);
-    CPPUNIT_TEST_SUITE_END();
-
-public:
-    VegasTest();
-
-    void setUp();
-    void tearDown();
-
-protected:
-    void check_status();
-    void wait_for_state(ManagerId::State);
-
-    void test_create_vegas();
-    void test_off_on_sequence();
-
-private:
-    VegasManager *vegas_manager;
+    enum index
+    {
+        // Spectrometer control registers
+        acc_len = ManagerId::ParameterCnt,
+        arm,
+        adc_snap0_ctrl,
+        adc_snap1_ctrl,
+        dest_ip,
+        dest_ip_sel,
+        dest_port,
+        dest_port_sel,
+        tint,
+        sync_period,
+        sync_period_sel,
+        ParameterCnt
+    };
 };
 
-inline VegasTest::VegasTest()
-    :
-    CppUnit::TestCase()
-{
-}
-
-#endif//VEGASTEST_H
+#endif//VEGAS_MANAGER_ID_H

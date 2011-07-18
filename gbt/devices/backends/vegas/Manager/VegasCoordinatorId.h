@@ -20,42 +20,44 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGASDDL_H
-#define VEGASDDL_H
+#ifndef VEGAS_COORDINATOR_ID_H
+#define VEGAS_COORDINATOR_ID_H
 
-#include "DataDesc.h"
-#include "ManagerDDL.h"
+#include "ManagerId.h"
 
-class VegasMonitorDDL : public DataDescList
+
+const char * const SpectrometerChildName[] =
 {
-public:
-    enum
+    "BankAMgr",
+    "BankBMgr",
+    "BankCMgr",
+    "BankDMgr",
+    "BankEMgr",
+    "BankFMgr",
+    "BankGMgr",
+    "BankHMgr",
+};
+
+struct VegasCoordinatorId
+{
+    enum Child
     {
-        actel_temp,
-        // adc_snap0_bram_msb,
-        // adc_snap0_bram_lsb,
-        // adc_snap1_bram_msb,
-        // adc_snap1_bram_lsb,
-        fpga_temp,
-        ppc_temp,
-        p1v,
-        p1v_aux,
-        p1v5,
-        p1v8,
-        p2v5,
-        p3v3,
-        p5v,
-        p12v,
-        ParameterCnt
+        BankAMgr,
+        BankBMgr,
+        BankCMgr,
+        BankDMgr,
+        BankEMgr,
+        BankFMgr,
+        BankGMgr,
+        BankHMgr,
+        childCount
     };
 
-    VegasMonitorDDL(int base);
+    enum index
+    {
+        dummy = ManagerId::ParameterCnt,
+        ParameterCnt
+    };
 };
 
-class VegasControlDDL : public ManagerDDL
-{
-public:
-    VegasControlDDL(unsigned long base);
-};
-
-#endif//VEGASDDL_H
+#endif//VEGAS_COORDINATOR_ID_H

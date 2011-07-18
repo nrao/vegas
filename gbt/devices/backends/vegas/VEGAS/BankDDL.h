@@ -20,41 +20,42 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGASTEST_H
-#define VEGASTEST_H
+#ifndef BANK_DDL_H
+#define BANK_DDL_H
 
-#include "VegasManager.h"
+#include "DataDesc.h"
+#include "ManagerDDL.h"
 
-#include <cppunit/extensions/HelperMacros.h>
-
-class VegasTest : public CppUnit::TestCase
+class BankMonitorDDL : public DataDescList
 {
-    CPPUNIT_TEST_SUITE(VegasTest);
-        CPPUNIT_TEST(test_create_vegas);
-        CPPUNIT_TEST(test_off_on_sequence);
-    CPPUNIT_TEST_SUITE_END();
-
 public:
-    VegasTest();
+    enum
+    {
+        actel_temp,
+        // adc_snap0_bram_msb,
+        // adc_snap0_bram_lsb,
+        // adc_snap1_bram_msb,
+        // adc_snap1_bram_lsb,
+        fpga_temp,
+        ppc_temp,
+        p1v,
+        p1v_aux,
+        p1v5,
+        p1v8,
+        p2v5,
+        p3v3,
+        p5v,
+        p12v,
+        ParameterCnt
+    };
 
-    void setUp();
-    void tearDown();
-
-protected:
-    void check_status();
-    void wait_for_state(ManagerId::State);
-
-    void test_create_vegas();
-    void test_off_on_sequence();
-
-private:
-    VegasManager *vegas_manager;
+    BankMonitorDDL(int base);
 };
 
-inline VegasTest::VegasTest()
-    :
-    CppUnit::TestCase()
+class BankControlDDL : public ManagerDDL
 {
-}
+public:
+    BankControlDDL(unsigned long base);
+};
 
-#endif//VEGASTEST_H
+#endif//BANK_DDL_H

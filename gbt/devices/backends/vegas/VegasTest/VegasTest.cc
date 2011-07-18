@@ -20,13 +20,13 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#include "VegasId.h"
+#include "VegasManagerId.h"
 #include "VegasTest.h"
 
 void
 VegasTest::setUp()
 {
-    vegas_manager = new Vegas;
+    vegas_manager = new VegasManager;
     vegas_manager->standby();
     wait_for_state(ManagerId::Standby);
 

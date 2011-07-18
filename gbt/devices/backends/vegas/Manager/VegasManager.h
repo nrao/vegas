@@ -20,20 +20,20 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGAS_H
-#define VEGAS_H
+#ifndef VEGAS_MANAGER_H
+#define VEGAS_MANAGER_H
 
 #include "Parameter.h"
-#include "VegasId.h"
+#include "VegasManagerId.h"
 #include "VegasMsg.h"
 
 class Sampler;
 
-class Vegas : public ManagerSynchronous
+class VegasManager : public ManagerSynchronous
 {
 public:
-    Vegas();
-    ~Vegas();
+    VegasManager();
+    ~VegasManager();
 
     void constructSamplers();
     void monitor();
@@ -94,4 +94,4 @@ private:
     // Samplers?
 };
 
-#endif//VEGAS_H
+#endif//VEGAS_MANAGER_H

@@ -20,10 +20,10 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#include "VegasDDL.h"
-#include "VegasId.h"
+#include "BankDDL.h"
+#include "VegasManagerId.h"
 
-VegasMonitorDDL::VegasMonitorDDL(int base) : DataDescList()
+BankMonitorDDL::BankMonitorDDL(int base) : DataDescList()
 {
     //DataDescriptionBranch *ddb;
     DataDescription *dd;
@@ -121,7 +121,7 @@ VegasMonitorDDL::VegasMonitorDDL(int base) : DataDescList()
 
 }
 
-VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
+BankControlDDL::BankControlDDL(unsigned long base) : ManagerDDL(base)
 {
     //DataDescriptionBranch *ddb;
     DataDescription *dd;
@@ -132,7 +132,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "acc_len",
         "Number of spectra added in hardware accumulator",
-        VegasId::acc_len,
+        VegasManagerId::acc_len,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -140,7 +140,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "arm",
         "Resets hardware on next sync pulse",
-        VegasId::arm,
+        VegasManagerId::arm,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -148,7 +148,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "adc_snap0_ctrl",
         "Toggles a dump of raw ADC0 values",
-        VegasId::adc_snap0_ctrl,
+        VegasManagerId::adc_snap0_ctrl,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -156,7 +156,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "adc_snap1_ctrl",
         "Toggles a dump of raw ADC1 values",
-        VegasId::adc_snap1_ctrl,
+        VegasManagerId::adc_snap1_ctrl,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -164,7 +164,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "dest_ip",
         "Sets non-default destination IP address",
-        VegasId::dest_ip,
+        VegasManagerId::dest_ip,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -172,7 +172,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "dest_ip_sel",
         "Toggles default or custom destination IP address",
-        VegasId::dest_ip_sel,
+        VegasManagerId::dest_ip_sel,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -180,7 +180,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "dest_port",
         "Sets non-default destination port",
-        VegasId::dest_port,
+        VegasManagerId::dest_port,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -188,7 +188,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "dest_port_sel",
         "Toggles default or custom destination port",
-        VegasId::dest_port_sel,
+        VegasManagerId::dest_port_sel,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -196,7 +196,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "tint",
         "Spectra integration time",
-        VegasId::tint,
+        VegasManagerId::tint,
         BasicType::Double,
         BasicUnit::MicroSeconds);
     addDescriptor(dd);
@@ -204,7 +204,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "sync_period",
         "Sets the non-default sync period",
-        VegasId::sync_period,
+        VegasManagerId::sync_period,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -212,7 +212,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     dd = new DataDescription(
         "sync_period_sel",
         "Toggles default or custom sync period",
-        VegasId::sync_period_sel,
+        VegasManagerId::sync_period_sel,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -221,7 +221,7 @@ VegasControlDDL::VegasControlDDL(unsigned long base) : ManagerDDL(base)
     // dd = new DataDescription(
     //     "",
     //     "",
-    //     VegasId::ID,
+    //     VegasManagerId::ID,
     //     BasicType::TYPE,
     //     BasicUnit::UNIT);
     // addDescriptor(dd);

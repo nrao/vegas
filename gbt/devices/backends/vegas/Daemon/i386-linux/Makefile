@@ -66,13 +66,16 @@ include $(YGOR_ROOT)/include/DatabaseAccess.mk
 # Section 3: Additional Developer defined Rules and Targets.
 #
 VEGASLIBS += ../../Manager/$(ARCH)/libManager.a
+VEGASLIBS += 
 VEGASLIBS += ../../VEGAS/$(ARCH)/libVEGAS.a
+VEGASLIBS += ../../Synth/$(ARCH)/libSynth.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/McTime/$(ARCH)/libMcTime.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/DeviceAccess/$(ARCH)/libDeviceAccess.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/DynamicLoader/$(ARCH)/libDynamicLoader.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/Sampler/$(ARCH)/libSampler.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/Threads/$(ARCH)/libThreads.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/DatabaseAccess/$(ARCH)/libDatabaseAccess.a
+VEGASLIBS += $(YGOR_ROOT)/libraries/Serial/$(ARCH)/libSerial.a
 
 USRLIBS := $(VEGASLIBS) $(USRLIBS)
 USER_INCLUDES += -I../../Manager
