@@ -283,19 +283,20 @@ const int RC68_92_PANEL                 = PanelNumBase + 0xae;
 const int Zpectrometer_PANEL            = PanelNumBase + 0xaf;
 const int QuadrantDetector_PANEL        = PanelNumBase + 0xb0;
 const int GUPPI_PANEL                   = PanelNumBase + 0xb1;
+const int RC_ARRAY18_26_PANEL           = PanelNumBase + 0xb2;
 
 // Vegas 
-const int VegasCoordinator_PANEL        = PanelNumBase + 0xb2;
-const int VegasBankA_PANEL              = PanelNumBase + 0xb3;
-const int VegasBankB_PANEL              = PanelNumBase + 0xb4;
-const int VegasBankC_PANEL              = PanelNumBase + 0xb5;
-const int VegasBankD_PANEL              = PanelNumBase + 0xb6;
-const int VegasBankE_PANEL              = PanelNumBase + 0xb7;
-const int VegasBankF_PANEL              = PanelNumBase + 0xb8;
-const int VegasBankG_PANEL              = PanelNumBase + 0xb9;
-const int VegasBankH_PANEL              = PanelNumBase + 0xba;
+const int VegasCoordinator_PANEL        = PanelNumBase + 0xb3;
+const int VegasBankA_PANEL              = PanelNumBase + 0xb4;
+const int VegasBankB_PANEL              = PanelNumBase + 0xb5;
+const int VegasBankC_PANEL              = PanelNumBase + 0xb6;
+const int VegasBankD_PANEL              = PanelNumBase + 0xb7;
+const int VegasBankE_PANEL              = PanelNumBase + 0xb8;
+const int VegasBankF_PANEL              = PanelNumBase + 0xb9;
+const int VegasBankG_PANEL              = PanelNumBase + 0xba;
+const int VegasBankH_PANEL              = PanelNumBase + 0xbb;
 
-const int firstUnusedPanelNum           = PanelNumBase + 0xbb;
+const int firstUnusedPanelNum           = PanelNumBase + 0xbc;
 
 /* DCR prognums */
 /* 0x29000800 - 0x290008ff */

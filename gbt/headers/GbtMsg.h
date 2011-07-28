@@ -191,7 +191,9 @@ struct GbtMsg
         Rcvr68_92               = GbMsg::GBT + 43*MsgDef::Device,
         Zpectrometer            = GbMsg::GBT + 44*MsgDef::Device,
         Guppi                   = GbMsg::GBT + 45*MsgDef::Device,
-        Vegas                   = GbMsg::GBT + 46*MsgDef::Device,
+        RcvrArray18_26          = GbMsg::GBT + 46*MsgDef::Device,
+        VLBI                    = GbMsg::GBT + 47*MsgDef::Device,
+        Vegas                   = GbMsg::GBT + 48*MsgDef::Device
     };
 };
 
