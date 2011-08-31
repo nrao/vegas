@@ -1,4 +1,4 @@
-//# Copyright (C) 2011 Associated Universities, Inc. Washington DC, USA.
+//# Copyright (C) 1998 Associated Universities, Inc. Washington DC, USA.
 //# 
 //# This program is free software; you can redistribute it and/or modify
 //# it under the terms of the GNU General Public License as published by
@@ -20,44 +20,27 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef BANK_DDL_H
-#define BANK_DDL_H
+#ifndef VEGASCoordinatorDDL_h
+#define VEGASCoordinatorDDL_h
 
-#include "DataDesc.h"
 #include "ManagerDDL.h"
+#include "VegasManagerId.h"
 
-class BankMonitorDDL : public DataDescList
+// VEGAS (Coordinator) Monitor DataDescriptors
+class CoordinatorMonitorDDL : public DataDescList
 {
 public:
-    enum
-    {
-	/*
-        actel_temp,
-        // adc_snap0_bram_msb,
-        // adc_snap0_bram_lsb,
-        // adc_snap1_bram_msb,
-        // adc_snap1_bram_lsb,
-        fpga_temp,
-        ppc_temp,
-        p1v,
-        p1v_aux,
-        p1v5,
-        p1v8,
-        p2v5,
-        p3v3,
-        p5v,
-        p12v,
-	*/
-        ParameterCnt
-    };
+	enum
+	{
+	};
 
-    BankMonitorDDL(int base);
+	CoordinatorMonitorDDL(int base);
 };
 
-class BankControlDDL : public ManagerDDL
+// VEGAS (Coordinator) Parameter DataDescriptors
+class CoordinatorControlDDL: public ManagerDDL
 {
 public:
-    BankControlDDL(unsigned long base);
+        CoordinatorControlDDL(unsigned long base);
 };
-
-#endif//BANK_DDL_H
+#endif

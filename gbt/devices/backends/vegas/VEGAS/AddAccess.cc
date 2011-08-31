@@ -23,46 +23,48 @@
 #if defined(SOLARIS) || defined(LINUX)
 #include "AddAccess.h"
 #include "BankDDL.h"
-//#include "CoordinatorDDL.h"
+#include "CoordinatorDDL.h"
 #include "gbtRpcNumbers.h"
 #include "GbtMsg.h"
 #include "VegasMsg.h"
 
 DeviceAccess *addAccess(const char *subdevice)
 {
-    // ADDACCESS( VEGAS, VegasCoordinator_PANEL,
-    //            new CoordinatorControlDDL(VegasMsg::Vegas),
-    //            new CoordinatorMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankA_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( VEGAS, VegasCoordinator_PANEL,
+	       altair, VegasHost,
+               new CoordinatorControlDDL(VegasMsg::Vegas),
+               new CoordinatorMonitorDDL(VegasMsg::Vegas));
+    
+    ADDACCESS( Manager1, VegasBankA_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankB_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager2, VegasBankB_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankC_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager3, VegasBankC_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankD_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager4, VegasBankD_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankE_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager5, VegasBankE_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankF_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager6, VegasBankF_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankG_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager7, VegasBankG_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( VEGAS, VegasBankH_PANEL,
-               localhost, VegasHost,
+    ADDACCESS( Manager8, VegasBankH_PANEL,
+               altair, VegasHost,
                new BankControlDDL(VegasMsg::Vegas),
                new BankMonitorDDL(VegasMsg::Vegas));
     return 0;
@@ -71,10 +73,19 @@ DeviceAccess *addAccess(const char *subdevice)
 NameList ManagerNames =
 {
     "VEGAS",
+    "Manager1",
+    "Manager2",
+    "Manager3",
+    "Manager4",
+    "Manager5",
+    "Manager6",
+    "Manager7",
+    "Manager8",
     0
 };
 
-NameList *getManagerBase()
+//NameList *getManagerBase()
+NameList *getManagerNames()
 {
     return reinterpret_cast<NameList*>(&ManagerNames);
 }

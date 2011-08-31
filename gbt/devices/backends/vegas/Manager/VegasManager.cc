@@ -24,6 +24,96 @@
 #include "VegasManager.h"
 #include "VegasManagerId.h"
 
+void VegasManager::initialize_parameters()
+{
+    int acc_len = 0;
+    p[VegasManagerId::acc_len] = new ControlParameter(
+    &acc_len, sizeof(acc_len), this,
+    (void (Manager::*)(void*))(&VegasManager::acc_lenDep),
+    (int (Manager::*)(const void*))(&VegasManager::acc_lenChk),
+    (int (Manager::*)(const void*))(&VegasManager::acc_lenAct),
+    "acc_len");
+
+    int arm = 0;
+    p[VegasManagerId::arm] = new ControlParameter(
+    &arm, sizeof(arm), this,
+    (void (Manager::*)(void*))(&VegasManager::armDep),
+    (int (Manager::*)(const void*))(&VegasManager::armChk),
+    (int (Manager::*)(const void*))(&VegasManager::armAct),
+    "arm");
+    
+    int adc_snap0_ctrl = 0;
+    p[VegasManagerId::adc_snap0_ctrl] = new ControlParameter(
+    &adc_snap0_ctrl , sizeof(adc_snap0_ctrl), this,
+    (void (Manager::*)(void*))(&VegasManager::adc_snap0_ctrlDep),
+    (int (Manager::*)(const void*))(&VegasManager::adc_snap0_ctrlChk),
+    (int (Manager::*)(const void*))(&VegasManager::adc_snap0_ctrlAct),
+    "adc_snap0_ctrl");
+
+    int adc_snap1_ctrl = 0;
+    p[VegasManagerId::adc_snap1_ctrl] = new ControlParameter(
+    &adc_snap1_ctrl , sizeof(adc_snap1_ctrl), this,
+    (void (Manager::*)(void*))(&VegasManager::adc_snap1_ctrlDep),
+    (int (Manager::*)(const void*))(&VegasManager::adc_snap1_ctrlChk),
+    (int (Manager::*)(const void*))(&VegasManager::adc_snap1_ctrlAct),
+    "adc_snap1_ctrl");
+
+    int dest_ip = 0;
+    p[VegasManagerId::dest_ip] = new ControlParameter(
+    &dest_ip, sizeof(dest_ip), this,
+    (void (Manager::*)(void*))(&VegasManager::dest_ipDep),
+    (int (Manager::*)(const void*))(&VegasManager::dest_ipChk),
+    (int (Manager::*)(const void*))(&VegasManager::dest_ipAct),
+    "dest_ip");
+
+    int dest_ip_sel = 0;
+    p[VegasManagerId::dest_ip_sel] = new ControlParameter(
+    &dest_ip_sel, sizeof(dest_ip_sel), this,
+    (void (Manager::*)(void*))(&VegasManager::dest_ip_selDep),
+    (int (Manager::*)(const void*))(&VegasManager::dest_ip_selChk),
+    (int (Manager::*)(const void*))(&VegasManager::dest_ip_selAct),
+    "dest_ip_sel");
+
+    int dest_port = 0;
+    p[VegasManagerId::dest_port] = new ControlParameter(
+    &dest_port, sizeof(dest_port), this,
+    (void (Manager::*)(void*))(&VegasManager::dest_portDep),
+    (int (Manager::*)(const void*))(&VegasManager::dest_portChk),
+    (int (Manager::*)(const void*))(&VegasManager::dest_portAct),
+    "dest_port");
+
+    int dest_port_sel = 0;
+    p[VegasManagerId::dest_port_sel] = new ControlParameter(
+    &dest_port_sel, sizeof(dest_port_sel), this,
+    (void (Manager::*)(void*))(&VegasManager::dest_port_selDep),
+    (int (Manager::*)(const void*))(&VegasManager::dest_port_selChk),
+    (int (Manager::*)(const void*))(&VegasManager::dest_port_selAct),
+    "dest_port_sel");
+
+    double tint = 0;
+    p[VegasManagerId::tint] = new ControlParameter(
+    &tint, sizeof(tint), this,
+    (void (Manager::*)(void*))(&VegasManager::tintDep),
+    (int (Manager::*)(const void*))(&VegasManager::tintChk),
+    (int (Manager::*)(const void*))(&VegasManager::tintAct),
+    "tint");
+
+    int sync_period = 0;
+    p[VegasManagerId::sync_period] = new ControlParameter(
+    &sync_period, sizeof(sync_period), this,
+    (void (Manager::*)(void*))(&VegasManager::sync_periodDep),
+    (int (Manager::*)(const void*))(&VegasManager::sync_periodChk),
+    (int (Manager::*)(const void*))(&VegasManager::sync_periodAct),
+    "sync_period");
+
+    int sync_period_sel = 0;
+    p[VegasManagerId::sync_period_sel] = new ControlParameter(
+    &sync_period_sel, sizeof(sync_period_sel), this,
+    (void (Manager::*)(void*))(&VegasManager::sync_period_selDep),
+    (int (Manager::*)(const void*))(&VegasManager::sync_period_selChk),
+    (int (Manager::*)(const void*))(&VegasManager::sync_period_selAct),
+    "sync_period_sel");
+}
 
 //---------//
 // acc_len //
@@ -304,6 +394,7 @@ VegasManager::VegasManager()
 
     // Init parameters
 
+    initialize_parameters();
     int success = init();
     if(!success)
     {

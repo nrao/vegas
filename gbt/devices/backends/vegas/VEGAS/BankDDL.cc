@@ -25,12 +25,14 @@
 
 BankMonitorDDL::BankMonitorDDL(int base) : DataDescList()
 {
-    //DataDescriptionBranch *ddb;
+    /*
+    DataDescriptionBranch *ddb;
     DataDescription *dd;
 
     //--------------------------------//
     // Spectrometer Monitor Registers //
     //--------------------------------//
+
     dd = new DataDescription(
         "actel_temp",
         "Actel chip temperature",
@@ -118,7 +120,7 @@ BankMonitorDDL::BankMonitorDDL(int base) : DataDescList()
         BasicType::Float,
         BasicUnit::Volts);
     addDescriptor(dd);
-
+    */
 }
 
 BankControlDDL::BankControlDDL(unsigned long base) : ManagerDDL(base)

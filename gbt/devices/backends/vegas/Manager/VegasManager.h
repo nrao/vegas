@@ -39,6 +39,8 @@ public:
     void monitor();
 
 protected:
+    void initialize_parameters();
+
     // Parameters
     int acc_lenAct(const int &acc_len);
     int acc_lenChk(const int &acc_len);

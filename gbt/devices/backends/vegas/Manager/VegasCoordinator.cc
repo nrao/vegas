@@ -39,7 +39,7 @@ VegasCoordinator::VegasCoordinator()
     m_clk(0)
 {
     // Clock synthesizer
-    m_clk = new Synthesizer("/dev/ttyS0");
+    //m_clk = new Synthesizer("/dev/ttyS0");
 
     // Submanagers
     // Bank A

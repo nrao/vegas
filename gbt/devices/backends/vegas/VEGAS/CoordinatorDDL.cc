@@ -1,4 +1,4 @@
-//# Copyright (C) 2011 Associated Universities, Inc. Washington DC, USA.
+//# Copyright (C) 1998 Associated Universities, Inc. Washington DC, USA.
 //# 
 //# This program is free software; you can redistribute it and/or modify
 //# it under the terms of the GNU General Public License as published by
@@ -20,44 +20,16 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef BANK_DDL_H
-#define BANK_DDL_H
+#include "CoordinatorDDL.h"
 
-#include "DataDesc.h"
-#include "ManagerDDL.h"
-
-class BankMonitorDDL : public DataDescList
+CoordinatorMonitorDDL::CoordinatorMonitorDDL(int base) : DataDescList()
 {
-public:
-    enum
-    {
-	/*
-        actel_temp,
-        // adc_snap0_bram_msb,
-        // adc_snap0_bram_lsb,
-        // adc_snap1_bram_msb,
-        // adc_snap1_bram_lsb,
-        fpga_temp,
-        ppc_temp,
-        p1v,
-        p1v_aux,
-        p1v5,
-        p1v8,
-        p2v5,
-        p3v3,
-        p5v,
-        p12v,
-	*/
-        ParameterCnt
-    };
+    DataDescriptionBranch *ddb;
+    DataDescription *dd;
+}
 
-    BankMonitorDDL(int base);
-};
-
-class BankControlDDL : public ManagerDDL
+CoordinatorControlDDL::CoordinatorControlDDL(unsigned long base)
+    		      : ManagerDDL(base)
 {
-public:
-    BankControlDDL(unsigned long base);
-};
-
-#endif//BANK_DDL_H
+    DataDescription *dd;
+}
