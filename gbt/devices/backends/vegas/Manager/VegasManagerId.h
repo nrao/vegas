@@ -29,8 +29,25 @@ struct VegasManagerId
 {
     enum index
     {
-        // Spectrometer control registers
-        acc_len = ManagerId::ParameterCnt,
+        // FITS file parameters
+        blanking_time = ManagerId::ParameterCnt,
+        cal,
+        freq_resolution,
+        phase_start,
+        polarization,
+        sigref,
+        stokes_mode0,
+        stokes_mode1,
+        stokes_mode2,
+        stokes_mode3,
+        stokes_mode4,
+        stokes_mode5,
+        stokes_mode6,
+        stokes_mode7,
+        switching_source,
+        // KATCP parameters
+        acc_len,
+        acc_len_sel,
         arm,
         adc_snap0_ctrl,
         adc_snap1_ctrl,
@@ -38,10 +55,43 @@ struct VegasManagerId
         dest_ip_sel,
         dest_port,
         dest_port_sel,
-        tint,
         sync_period,
         sync_period_sel,
+        // Shared memory parameters
+        chan_bw,
+        datadir,
+        datahost,
+        dataport,
+        exposure,
+        filenum,
+        nchan,
+        npol,
+        nsubband,
+        pfb_rate,
+        pkt_fmt,
+        sub0_freq,
+        sub1_freq,
+        sub2_freq,
+        sub3_freq,
+        sub4_freq,
+        sub5_freq,
+        sub6_freq,
+        sub7_freq,
+        // ?
+        // tint,
         ParameterCnt
+    };
+
+    enum polarizationMode
+    {
+        self,
+        cross
+    };
+
+    enum switchingSource 
+    {
+        internal,
+        external
     };
 };
 

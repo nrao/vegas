@@ -25,116 +25,273 @@
 
 BankMonitorDDL::BankMonitorDDL(int base) : DataDescList()
 {
-    /*
-    DataDescriptionBranch *ddb;
-    DataDescription *dd;
-
     //--------------------------------//
     // Spectrometer Monitor Registers //
     //--------------------------------//
+    
+    // DataDescriptionBranch *ddb;
+    DataDescription *dd;
 
+    //----------------//
+    // KATCP Monitors //
+    //----------------//
     dd = new DataDescription(
-        "actel_temp",
-        "Actel chip temperature",
-        base + actel_temp,
-        BasicType::Float,
-        BasicUnit::Celsius);
+        "spectra_ctr",
+        "Number of accumulations sine last sync pulse",
+        base + spectra_ctr,
+        BasicType::Int,
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "fpga_temp",
-        "FPGA chip temperature",
-        base + fpga_temp,
-        BasicType::Float,
-        BasicUnit::Celsius);
+        "sync_ctr",
+        "Number of syncs since last reset",
+        base + sync_ctr,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    //------------------------//
+    // Shared Memory Monitors //
+    //------------------------//
+    dd = new DataDescription(
+        "acc_stat",
+        "Status of CPU accumulator thread",
+        base + acc_stat,
+        STRINGOF(32),
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "ppc_temp",
-        "PowerPC temperature",
-        base + ppc_temp,
-        BasicType::Float,
-        BasicUnit::Celsius);
+        "disk_stat",
+        "Status of disk thread",
+        base + disk_stat,
+        STRINGOF(32),
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "1V",
-        "1V voltage",
-        base + p1v,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "drop_avg",
+        "Current packet drop rate",
+        base + drop_avg,
+        BasicType::Double,
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "1V Aux",
-        "1V aux voltage",
-        base + p1v_aux,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "drop_tot",
+        "Overall packet drop rate",
+        base + drop_tot,
+        BasicType::Double,
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "1.5V",
-        "1.5V voltage",
-        base + p1v5,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "gpu_stat",
+        "Status of GPU thread",
+        base + gpu_stat,
+        STRINGOF(32),
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "1.8V",
-        "1.8V voltage",
-        base + p1v8,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "ndrop",
+        "Number of packets dropped",
+        base + ndrop,
+        BasicType::Int,
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "2.5V",
-        "2.5V voltage",
-        base + p2v5,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "net_stat",
+        "Status of network thread",
+        base + net_stat,
+        STRINGOF(32),
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "3.3V",
-        "3.3V voltage",
-        base + p3v3,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "npkt",
+        "Number of packets received from ROACH",
+        base + npkt,
+        BasicType::Int,
+        BasicUnit::none);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "5V",
-        "5V voltage",
-        base + p5v,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "stt_imjd",
+        "Measured observation start time (days)",
+        base + stt_imjd,
+        BasicType::Int,
+        BasicUnit::Days);
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "12V",
-        "12V voltage",
-        base + p12v,
-        BasicType::Float,
-        BasicUnit::Volts);
+        "stt_smjd",
+        "Measured observation start time (seconds)",
+        base + stt_smjd,
+        BasicType::Int,
+        BasicUnit::Seconds);
     addDescriptor(dd);
-    */
+
+    dd = new DataDescription(
+        "stt_offs",
+        "Measured observation start time (partial seconds)",
+        base + sync_ctr,
+        BasicType::Double,
+        BasicUnit::MicroSeconds); //!!! units?
+    addDescriptor(dd);
 }
 
 BankControlDDL::BankControlDDL(unsigned long base) : ManagerDDL(base)
 {
-    //DataDescriptionBranch *ddb;
+    // DataDescriptionBranch *ddb;
     DataDescription *dd;
 
-    //--------------------------------//
-    // Spectrometer Control Registers //
-    //--------------------------------//
+    //----------------------//
+    // FITS File Parameters //
+    //----------------------//
+    dd = new DataDescription(
+        "blanking_time",
+        "The blanking time in seconds",
+        VegasManagerId::blanking_time,
+        BasicType::Double,
+        BasicUnit::Seconds);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "cal",
+        "Specifies whether cal switching is used",
+        VegasManagerId::cal,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "freq_resolution",
+        "TBD", //!!! ?
+        VegasManagerId::freq_resolution,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "phase_start",
+        "Specifies the duration of each switching state",
+        VegasManagerId::phase_start,
+        BasicType::Double,
+        BasicUnit::Seconds);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "polarization",
+        "Selects whether cross polarization is computed",
+        VegasManagerId::polarization,
+        BasicType::Enum,
+        BasicUnit::none,
+        0,
+        0,
+        "polarization ( self, cross )");
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sigref",
+        "Specifies whether sigref switching is used",
+        VegasManagerId::sigref,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode0",
+        "Selects either total power or full stokes for sub-band 0",
+        VegasManagerId::stokes_mode0,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode1",
+        "Selects either total power or full stokes for sub-band 1",
+        VegasManagerId::stokes_mode1,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode2",
+        "Selects either total power or full stokes for sub-band 2",
+        VegasManagerId::stokes_mode2,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode3",
+        "Selects either total power or full stokes for sub-band 3",
+        VegasManagerId::stokes_mode3,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode4",
+        "Selects either total power or full stokes for sub-band 4",
+        VegasManagerId::stokes_mode4,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode5",
+        "Selects either total power or full stokes for sub-band 5",
+        VegasManagerId::stokes_mode5,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode6",
+        "Selects either total power or full stokes for sub-band 6",
+        VegasManagerId::stokes_mode6,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "stokes_mode7",
+        "Selects either total power or full stokes for sub-band 7",
+        VegasManagerId::stokes_mode7,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "switching_source",
+        "Selects either internally or externally generated switching signals",
+        VegasManagerId::switching_source,
+        BasicType::Enum,
+        BasicUnit::none,
+        0,
+        0,
+        "switching_source ( internal, external )");
+    addDescriptor(dd);
+
+    //------------------//
+    // KATCP Parameters //
+    //------------------//
     dd = new DataDescription(
         "acc_len",
         "Number of spectra added in hardware accumulator",
         VegasManagerId::acc_len,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "acc_len_sel",
+        "Toggles default of custom accumulation length",
+        VegasManagerId::acc_len_sel,
         BasicType::Int,
         BasicUnit::none);
     addDescriptor(dd);
@@ -196,14 +353,6 @@ BankControlDDL::BankControlDDL(unsigned long base) : ManagerDDL(base)
     addDescriptor(dd);
 
     dd = new DataDescription(
-        "tint",
-        "Spectra integration time",
-        VegasManagerId::tint,
-        BasicType::Double,
-        BasicUnit::MicroSeconds);
-    addDescriptor(dd);
-
-    dd = new DataDescription(
         "sync_period",
         "Sets the non-default sync period",
         VegasManagerId::sync_period,
@@ -219,12 +368,169 @@ BankControlDDL::BankControlDDL(unsigned long base) : ManagerDDL(base)
         BasicUnit::none);
     addDescriptor(dd);
 
-    // Shared memory parameters
+    //--------------------------//
+    // Shared memory parameters //
+    //--------------------------//
+    dd = new DataDescription(
+        "chan_bw",
+        "Bandwidth of each spectral channel",
+        VegasManagerId::chan_bw,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "datadir",
+        "FITS output directory (only used when disk thread is running)",
+        VegasManagerId::datadir,
+        STRINGOF(64),
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "datahost",
+        "Hostname of ROACH board",
+        VegasManagerId::datahost,
+        STRINGOF(32),
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "dataport",
+        "UDP port to which ROACH board transmits packets",
+        VegasManagerId::dataport,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "exposure",
+        "Required integration time",
+        VegasManagerId::exposure, //!!! tint?
+        BasicType::Float,
+        BasicUnit::Seconds);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "filenum",
+        "File number in multi-file scan (starts at 0 for each scan)",
+        VegasManagerId::filenum,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "nchan",
+        "Number of frequency channels per sub-band",
+        VegasManagerId::nchan,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "npol",
+        "Number of polarizations",
+        VegasManagerId::npol,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "nsubband",
+        "Number of sub-bands",
+        VegasManagerId::nsubband,
+        BasicType::Int,
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "pfb_rate",
+        "Rate at which spectra are outputted from the PFB",
+        VegasManagerId::pfb_rate,
+        BasicType::Float,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "pkt_fmt",
+        "TBD", //!!! ?
+        VegasManagerId::pkt_fmt,
+        STRINGOF(32),
+        BasicUnit::none);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub0_freq",
+        "Center frequency of sub-band 0",
+        VegasManagerId::sub0_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub1_freq",
+        "Center frequency of sub-band 1",
+        VegasManagerId::sub1_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub2_freq",
+        "Center frequency of sub-band 2",
+        VegasManagerId::sub2_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub3_freq",
+        "Center frequency of sub-band 3",
+        VegasManagerId::sub3_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub4_freq",
+        "Center frequency of sub-band 4",
+        VegasManagerId::sub4_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub5_freq",
+        "Center frequency of sub-band 5",
+        VegasManagerId::sub5_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub6_freq",
+        "Center frequency of sub-band 6",
+        VegasManagerId::sub6_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    dd = new DataDescription(
+        "sub7_freq",
+        "Center frequency of sub-band 7",
+        VegasManagerId::sub7_freq,
+        BasicType::Double,
+        BasicUnit::Hertz);
+    addDescriptor(dd);
+
+    //---//
+    // ? //
+    //---//
     // dd = new DataDescription(
-    //     "",
-    //     "",
-    //     VegasManagerId::ID,
-    //     BasicType::TYPE,
-    //     BasicUnit::UNIT);
+    //     "tint",
+    //     "Spectra integration time",
+    //     VegasManagerId::tint,
+    //     BasicType::Double,
+    //     BasicUnit::MicroSeconds);
     // addDescriptor(dd);
 }

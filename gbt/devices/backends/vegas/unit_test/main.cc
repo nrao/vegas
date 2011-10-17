@@ -21,12 +21,14 @@
 //#	Green Bank, WV 24944-0002 USA
 
 #include <cppunit/TextTestRunner.h>
-#include "VegasTest.h"
+#include "CoordinatorTest.h"
+#include "ManagerTest.h"
 
 int main(int, char**)
 {
     CppUnit::TextTestRunner runner;
-    runner.addTest(VegasTest::suite());
+    runner.addTest(ManagerTest::suite());
+    runner.addTest(CoordinatorTest::suite());
     runner.run();
 
     return 0;

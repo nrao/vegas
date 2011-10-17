@@ -20,41 +20,48 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGASTEST_H
-#define VEGASTEST_H
+#ifndef COORDINATORTEST_H
+#define COORDINATORTEST_H
 
-#include "VegasManager.h"
-
+// Local
+#include "VegasCoordinator.h"
+// CPPUNIT
 #include <cppunit/extensions/HelperMacros.h>
 
-class VegasTest : public CppUnit::TestCase
+class CoordinatorTest : public CppUnit::TestCase
 {
-    CPPUNIT_TEST_SUITE(VegasTest);
-        CPPUNIT_TEST(test_create_vegas);
-        CPPUNIT_TEST(test_off_on_sequence);
+    CPPUNIT_TEST_SUITE(CoordinatorTest);
+        CPPUNIT_TEST(testCreate);
+        CPPUNIT_TEST(testActivate);
+        // Parameter tests
+        CPPUNIT_TEST(test_vco_range);
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    VegasTest();
+    CoordinatorTest();
 
     void setUp();
     void tearDown();
 
 protected:
-    void check_status();
-    void wait_for_state(ManagerId::State);
+    void assertStatus(const Msg::Level status = Msg::Clear);
+    void waitForState(ManagerId::State);
 
-    void test_create_vegas();
-    void test_off_on_sequence();
+    void testCreate();
+    void testActivate();
+
+    //
+    void test_vco_range();
 
 private:
-    VegasManager *vegas_manager;
+    VegasCoordinator *vegas_coordinator;
 };
 
-inline VegasTest::VegasTest()
+inline
+CoordinatorTest::CoordinatorTest()
     :
     CppUnit::TestCase()
 {
 }
 
-#endif//VEGASTEST_H
+#endif//COORDINATORTEST_H

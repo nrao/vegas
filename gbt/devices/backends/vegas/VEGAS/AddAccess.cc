@@ -30,57 +30,65 @@
 
 DeviceAccess *addAccess(const char *subdevice)
 {
-    ADDACCESS( VEGAS, VegasCoordinator_PANEL,
-	       altair, VegasHost,
-               new CoordinatorControlDDL(VegasMsg::Vegas),
-               new CoordinatorMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS(VEGAS, VegasCoordinator_PANEL,
+              altair, VegasHost,
+              new CoordinatorControlDDL(VegasMsg::Vegas),
+              0);//new CoordinatorMonitorDDL(VegasMsg::Vegas));
     
-    ADDACCESS( Manager1, VegasBankA_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager2, VegasBankB_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager3, VegasBankC_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager4, VegasBankD_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager5, VegasBankE_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager6, VegasBankF_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager7, VegasBankG_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
-    ADDACCESS( Manager8, VegasBankH_PANEL,
-               altair, VegasHost,
-               new BankControlDDL(VegasMsg::Vegas),
-               new BankMonitorDDL(VegasMsg::Vegas));
+    ADDACCESS(BankAMgr, VegasBankA_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankAMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankAMgr));
+
+    ADDACCESS(BankBMgr, VegasBankB_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankBMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankBMgr));
+
+    ADDACCESS(BankCMgr, VegasBankC_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankCMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankCMgr));
+
+    ADDACCESS(BankDMgr, VegasBankD_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankDMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankDMgr));
+
+    ADDACCESS(BankEMgr, VegasBankE_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankEMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankEMgr));
+
+    ADDACCESS(BankFMgr, VegasBankF_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankFMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankFMgr));
+
+    ADDACCESS(BankGMgr, VegasBankG_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankGMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankGMgr));
+
+    ADDACCESS(BankHMgr, VegasBankH_PANEL,
+              altair, VegasHost,
+              new BankControlDDL(VegasMsg::BankHMgr),
+              0);//new BankMonitorDDL(VegasMsg::BankHMgr));
+
     return 0;
 }
 
 NameList ManagerNames =
 {
     "VEGAS",
-    "Manager1",
-    "Manager2",
-    "Manager3",
-    "Manager4",
-    "Manager5",
-    "Manager6",
-    "Manager7",
-    "Manager8",
+    "BankAMgr",
+    "BankBMgr",
+    "BankCMgr",
+    "BankDMgr",
+    "BankEMgr",
+    "BankFMgr",
+    "BankGMgr",
+    "BankHMgr",
     0
 };
 

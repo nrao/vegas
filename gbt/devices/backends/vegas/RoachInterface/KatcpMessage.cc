@@ -1,11 +1,11 @@
 // Parent
-#include "Message.h"
+#include "KatcpMessage.h"
 // Local
 // YGOR
 // STL
 #include <sstream>
 
-Message::Message(char type, Arg name, int id)
+KatcpMessage::KatcpMessage(char type, KatcpArg name, int id)
     :
     m_type(type),
     m_name(name),
@@ -15,7 +15,7 @@ Message::Message(char type, Arg name, int id)
     m_args.clear();
 }
 
-Message::Message(const Message &msg)
+KatcpMessage::KatcpMessage(const KatcpMessage &msg)
     :
     m_type(msg.m_type),
     m_name(msg.m_name),
@@ -24,15 +24,28 @@ Message::Message(const Message &msg)
 {
 }
 
-Message::~Message()
+KatcpMessage &
+KatcpMessage::operator=(const KatcpMessage &msg)
+{
+    if(this != &msg)
+    {
+        m_type = msg.m_type;
+        m_name = msg.m_name;
+        m_id   = msg.m_id;
+        m_args = msg.m_args;
+    }
+    return *this;
+}
+
+KatcpMessage::~KatcpMessage()
 {
     m_args.clear();
 }
 
 bool
-Message::reply_ok() const
+KatcpMessage::reply_ok() const
 {
-    return ((m_type == MessageType::REPLY) &&
+    return ((m_type == KatcpType::REPLY) &&
             (m_args.size() > 0) &&
             (m_args[0].compare("ok") == 0));
 }
@@ -40,11 +53,11 @@ Message::reply_ok() const
 //------//
 // join //
 //------//
-Arg join(const Arg &separator,
-         const Args &args)
+KatcpArg join(const KatcpArg &separator,
+         const KatcpArgs &args)
 {
-    Arg base;
-    Args::const_iterator iter = args.begin();
+    KatcpArg base;
+    KatcpArgs::const_iterator iter = args.begin();
     if(base.empty() && (iter != args.end()))
     {
         base = *iter;
@@ -59,8 +72,8 @@ Arg join(const Arg &separator,
     return base;
 }
 
-Arg
-Message::serialize() const
+KatcpArg
+KatcpMessage::serialize() const
 {
     std::ostringstream msg;
     msg << m_type
@@ -76,15 +89,15 @@ Message::serialize() const
     return msg.str();
 }
 
-Message
-Message::parse(const Arg &raw_msg)
+KatcpMessage
+KatcpMessage::parse(const KatcpArg &raw_msg)
 {
     size_t tb = raw_msg.find_first_not_of(" \t");
     char type = raw_msg[tb];
 
     size_t nb = raw_msg.find_first_not_of(" \t", tb+1);
     size_t ne = raw_msg.find_first_of("[ \t", nb+1);
-    Arg name(raw_msg, nb, ne-nb);
+    KatcpArg name(raw_msg, nb, ne-nb);
 
     int ib = ne;
     int ie = ib;
@@ -97,7 +110,7 @@ Message::parse(const Arg &raw_msg)
         idss >> id;
     }
 
-    Message msg(type, name, id);
+    KatcpMessage msg(type, name, id);
 
     size_t ab, ae = ie;
     do
@@ -105,12 +118,12 @@ Message::parse(const Arg &raw_msg)
         ab = raw_msg.find_first_not_of(" \t", ae+1);
         ae = raw_msg.find_first_of(" \t", ab+1);
         msg.add_arg(raw_msg.substr(ab, ae-ab));
-    } while(ae != Arg::npos);
+    } while(ae != KatcpArg::npos);
     return msg;
 }
 
 bool
-Message::operator==(const Message &msg) const
+KatcpMessage::operator==(const KatcpMessage &msg) const
 {
     return ((m_type == msg.m_type) &&
             (m_name == msg.m_name) &&
@@ -119,21 +132,21 @@ Message::operator==(const Message &msg) const
 }
 
 bool
-Message::operator!=(const Message &msg) const
+KatcpMessage::operator!=(const KatcpMessage &msg) const
 {
     return !(*this == msg);
 }
 
-Arg
-Message::escape_arg(const Arg &raw_arg) const
+KatcpArg
+KatcpMessage::escape_arg(const KatcpArg &raw_arg) const
 {
     if(raw_arg.size() == 0)
     {
         return "\\@";
     }
-    Arg arg = raw_arg;
+    KatcpArg arg = raw_arg;
     size_t pos = arg.find_first_of(std::string(" \n\r\t\x1b\0"));
-    while(pos != Arg::npos)
+    while(pos != KatcpArg::npos)
     {
         switch(arg[pos])
         {
@@ -156,10 +169,10 @@ Message::escape_arg(const Arg &raw_arg) const
     return arg;
 }
 
-Arg
-Message::unescape_arg(const Arg &esc_arg) const
+KatcpArg
+KatcpMessage::unescape_arg(const KatcpArg &esc_arg) const
 {
-    Arg arg = esc_arg;
+    KatcpArg arg = esc_arg;
     if(arg.compare("\\@") == 0)
     {
         return "";
@@ -187,14 +200,14 @@ Message::unescape_arg(const Arg &esc_arg) const
                 arg.replace(pos, 1, "\x1b"); break;
             }
         }
-    } while(pos != Arg::npos);
+    } while(pos != KatcpArg::npos);
     return arg;
 }
 
-Args
-Message::escape_args(const Args &raw_args) const
+KatcpArgs
+KatcpMessage::escape_args(const KatcpArgs &raw_args) const
 {
-    Args args;
+    KatcpArgs args;
     for(size_t i = 0; i < raw_args.size(); ++i)
     {
         args.push_back(escape_arg(raw_args[i]));
@@ -202,10 +215,10 @@ Message::escape_args(const Args &raw_args) const
     return args;
 }
 
-Args
-Message::unescape_args(const Args &esc_args) const
+KatcpArgs
+KatcpMessage::unescape_args(const KatcpArgs &esc_args) const
 {
-    Args args;
+    KatcpArgs args;
     for(size_t i = 0; i < esc_args.size(); ++i)
     {
         args.push_back(unescape_arg(esc_args[i]));
@@ -214,10 +227,10 @@ Message::unescape_args(const Args &esc_args) const
 }
 
 std::ostream&
-operator<<(std::ostream &os, const Message &m)
+operator<<(std::ostream &os, const KatcpMessage &m)
 {
-    Arg args = "(" + join(" ", m.escape_args(m.m_args)) + ")";
-    os << "<Message "
+    KatcpArg args = "(" + join(" ", m.escape_args(m.m_args)) + ")";
+    os << "<KatcpMessage "
        << m.m_type << " "
        << m.m_name << " " 
        << args << ">";

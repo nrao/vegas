@@ -31,23 +31,21 @@ class BankMonitorDDL : public DataDescList
 public:
     enum
     {
-	/*
-        actel_temp,
-        // adc_snap0_bram_msb,
-        // adc_snap0_bram_lsb,
-        // adc_snap1_bram_msb,
-        // adc_snap1_bram_lsb,
-        fpga_temp,
-        ppc_temp,
-        p1v,
-        p1v_aux,
-        p1v5,
-        p1v8,
-        p2v5,
-        p3v3,
-        p5v,
-        p12v,
-	*/
+        // KATCP monitors
+        spectra_ctr,
+        sync_ctr,
+        // Shared memory monitors
+        acc_stat,
+        disk_stat,
+        drop_avg,
+        drop_tot,
+        gpu_stat,
+        ndrop,
+        net_stat,
+        npkt,
+        stt_imjd,
+        stt_smjd,
+        stt_offs,
         ParameterCnt
     };
 

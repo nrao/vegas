@@ -20,21 +20,20 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#include "VegasManagerId.h"
-#include "VegasTest.h"
+#include "ManagerTest.h"
+#include "VegasManager.h"
 
 void
-VegasTest::setUp()
+ManagerTest::setUp()
 {
-    vegas_manager = new VegasManager;
+    vegas_manager = new VegasManager("BankAMgr", VegasMsg::BankAMgr);
     vegas_manager->standby();
-    wait_for_state(ManagerId::Standby);
-
-    check_status();
+    waitForState(ManagerId::Standby);
+    assertStatus();
 }
 
 void
-VegasTest::tearDown()
+ManagerTest::tearDown()
 {
     vegas_manager->off();
     delete vegas_manager;
@@ -42,18 +41,17 @@ VegasTest::tearDown()
 }
 
 void
-VegasTest::check_status()
+ManagerTest::assertStatus(const Msg::Level status)
 {
-    vegas_manager->regChange();
-    Msg::Level status;
-    vegas_manager->getParameterValue(ManagerId::status, &status);
-    CPPUNIT_ASSERT_EQUAL(Msg::Clear, status);
+    Msg::Level mgr_status;
+    vegas_manager->getParameterValue(ManagerId::status, &mgr_status);
+    CPPUNIT_ASSERT_EQUAL(status, mgr_status);
 }
 
 void
-VegasTest::wait_for_state(ManagerId::State target)
+ManagerTest::waitForState(ManagerId::State target)
 {
-    ManagerId::State state = ManagerId::Off;
+    ManagerId::State state;
     do
     {
         usleep(1000);
@@ -65,19 +63,49 @@ VegasTest::wait_for_state(ManagerId::State target)
 //-------//
 // Tests //
 //-------//
+// testCreate
 void
-VegasTest::test_create_vegas()
+ManagerTest::testCreate()
 {
     CPPUNIT_ASSERT(vegas_manager != 0);
 }
 
+// testManagerActivate
 void
-VegasTest::test_off_on_sequence()
+ManagerTest::testActivate()
 {
-    vegas_manager->off();
     vegas_manager->on();
-    wait_for_state(ManagerId::Ready);
-    Msg::Level status;
-    vegas_manager->getParameterValue(ManagerId::status, &status);
-    CPPUNIT_ASSERT_EQUAL(Msg::Clear, status);
+    waitForState(ManagerId::Ready);
+    assertStatus();
+}
+
+
+// test_cal
+void
+ManagerTest::test_cal()
+{
+    int cal;
+
+    // Valid
+    cal = 0;
+    vegas_manager->putParameterValue(VegasManagerId::cal, &cal);
+    vegas_manager->regChange();
+    assertStatus();
+
+    cal = 1;
+    vegas_manager->putParameterValue(VegasManagerId::cal, &cal);
+    vegas_manager->regChange();
+    assertStatus();
+
+    // Invalid
+    cal = -1;
+    vegas_manager->putParameterValue(VegasManagerId::cal, &cal);
+    vegas_manager->regChange();
+    assertStatus(Msg::Notice);
+
+    cal = 2;
+    vegas_manager->putParameterValue(VegasManagerId::cal, &cal);
+    vegas_manager->regChange();
+    assertStatus(Msg::Notice);
+
 }

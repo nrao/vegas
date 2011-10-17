@@ -19,17 +19,17 @@ RoachInterface::~RoachInterface()
 }
 
 bool
-RoachInterface::send_message(const Message &msg)
+RoachInterface::sendMessage(const KatcpMessage &msg)
 {
-    std::string raw_msg = msg.serialize();
-    size_t n = 0;//m_tcp.write(const_cast<char*>(raw_msg.c_str()), raw_msg.size());
+    KatcpArg raw_msg = msg.serialize();
+    size_t n = m_tcp.write(const_cast<char*>(raw_msg.c_str()), raw_msg.size());
     return n == raw_msg.size();
 }
 
 bool
-RoachInterface::send_message(char type, Arg name, int nargs, ...)
+RoachInterface::sendMessage(char type, KatcpArg name, int nargs, ...)
 {
-    Message m(type, name);
+    KatcpMessage m(type, name);
     va_list args;
     va_start(args, nargs);
     for(int i = 0; i < nargs; ++i)
@@ -40,10 +40,10 @@ RoachInterface::send_message(char type, Arg name, int nargs, ...)
     return send_message(m);
 }
 
-Message
-RoachInterface::recv_message()
+KatcpMessage
+RoachInterface::recvMessage()
 {
     char buffer[100];
-    //m_tcp.read(buffer, 100);
-    return Message::parse(buffer);
+    m_tcp.read(buffer, 100);
+    return KatcpMessage::parse(buffer);
 }

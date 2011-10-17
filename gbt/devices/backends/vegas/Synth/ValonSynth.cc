@@ -23,11 +23,10 @@
 #include "Serial.h"
 #include "ValonSynth.h"
 #include <iostream>
+#include <cstring>
 
-// This code assumes that the effective phase detector frequency is 10MHz.
-const float EPDF = 10.0f;
 
-Synthesizer::Synthesizer(const char *port)
+ValonSynth::ValonSynth(const char *port)
     :
     s(port)
 {
@@ -37,7 +36,7 @@ Synthesizer::Synthesizer(const char *port)
 // Output Frequency //
 //------------------//
 bool
-Synthesizer::get_frequency(unsigned char synth, float &frequency)
+ValonSynth::get_frequency(enum ValonSynth::Synthesizer synth, float &frequency)
 {
     unsigned char bytes[24];
     unsigned char checksum;
@@ -49,14 +48,15 @@ Synthesizer::get_frequency(unsigned char synth, float &frequency)
     if(!verify_checksum(bytes, 24, checksum)) return false;
 #endif//VERIFY_CHECKSUM
     registers regs;
+    float EPDF = getEPDF(synth);
     unpack_freq_registers(bytes, regs);
     frequency = (regs.ncount + float(regs.frac) / regs.mod) * EPDF / regs.dbf;
     return true;
 }
 
 bool
-Synthesizer::set_frequency(unsigned char synth, float frequency,
-                           float chan_spacing)
+ValonSynth::set_frequency(enum ValonSynth::Synthesizer synth, float frequency,
+                          float chan_spacing)
 {
     vco_range vcor;
     int dbf = 1;
@@ -71,8 +71,9 @@ Synthesizer::set_frequency(unsigned char synth, float frequency,
     }
     float vco = frequency * dbf;
     registers regs;
+    float EPDF = getEPDF(synth);
     regs.ncount = int(vco / EPDF);
-    regs.frac = int((vco - regs.ncount * EPDF) / chan_spacing);
+    regs.frac = int((vco - regs.ncount * EPDF) / chan_spacing + 0.5);
     regs.mod = int(EPDF / chan_spacing + 0.5);
     regs.dbf = dbf;
     // Reduce frac/mod to simplest fraction
@@ -111,7 +112,7 @@ Synthesizer::set_frequency(unsigned char synth, float frequency,
 // Reference Frequency //
 //---------------------//
 bool
-Synthesizer::get_reference(unsigned int &frequency)
+ValonSynth::get_reference(unsigned int &frequency)
 {
     unsigned char bytes[4];
     unsigned char checksum;
@@ -127,7 +128,7 @@ Synthesizer::get_reference(unsigned int &frequency)
 }
 
 bool
-Synthesizer::set_reference(unsigned int frequency)
+ValonSynth::set_reference(unsigned int frequency)
 {
     unsigned char bytes[6];
     bytes[0] = 0x01;
@@ -138,11 +139,87 @@ Synthesizer::set_reference(unsigned int frequency)
     return bytes[0] == ACK;
 }
 
+//----------//
+// RF Level //
+//----------//
+bool
+ValonSynth::get_rf_level(enum ValonSynth::Synthesizer synth, int &rf_level)
+{
+    unsigned char bytes[24];
+    unsigned char checksum;
+    bytes[0] = 0x80 | synth;
+    s.write(bytes, 1);
+    s.read(bytes, 24);
+    s.read(&checksum, 1);
+#ifdef VERIFY_CHECKSUM
+    if(!verify_checksum(bytes, 24, checksum)) return false;
+#endif//VERIFY_CHECKSUM
+    //unsigned int reg0, reg1, reg2, reg3;
+    unsigned int reg4;
+    //unsigned int reg5;
+    //unpack_int(&bytes[0], reg0);
+    //unpack_int(&bytes[4], reg1);
+    //unpack_int(&bytes[8], reg2);
+    //unpack_int(&bytes[12], reg3);
+    unpack_int(&bytes[16], reg4);
+    //unpack_int(&bytes[20], reg5);
+    int rfl = (reg4 >> 3) & 0x03;
+    switch(rfl)
+    {
+    case 0: rf_level = -4; break;
+    case 1: rf_level = -1; break;
+    case 2: rf_level =  2; break;
+    case 3: rf_level =  5; break;
+    }
+    return true;
+}
+
+bool
+ValonSynth::set_rf_level(enum ValonSynth::Synthesizer synth, int rf_level)
+{
+    int rfl = 0;
+    switch(rf_level)
+    {
+    case -4: rfl = 0; break;
+    case -1: rfl = 1; break;
+    case 2:  rfl = 2; break;
+    case 5:  rfl = 3; break;
+    default: return false;
+    }
+    unsigned char bytes[26];
+    unsigned char checksum;
+    bytes[0] = 0x80 | synth;
+    s.write(bytes, 1);
+    s.read(&bytes[1], 24);
+    s.read(&checksum, 1);
+#ifdef VERIFY_CHECKSUM
+    if(!verify_checksum(&bytes[1], 24, checksum)) return;
+#endif//VERIFY_CHECKSUM
+    //unsigned int reg0, reg1, reg2, reg3;
+    unsigned int reg4;
+    //unsigned int reg5;
+    //unpack_int(&bytes[1], reg0);
+    //unpack_int(&bytes[5], reg1);
+    //unpack_int(&bytes[9], reg2);
+    //unpack_int(&bytes[13], reg3);
+    unpack_int(&bytes[17], reg4);
+    //unpack_int(&bytes[21], reg5);
+    reg4 &= 0xffffffe7;
+    reg4 |= (rfl & 0x03) << 3;
+    // Write values to hardware
+    bytes[0] = 0x00 | synth;
+    pack_int(reg4, &bytes[17]);
+    bytes[25] = generate_checksum(bytes, 25);
+    s.write(bytes, 26);
+    s.read(bytes, 1);
+    return bytes[0] == ACK;
+}
+
 //---------------------//
-// Synthesizer Options //
+// ValonSynth Options //
 //---------------------//
 bool
-Synthesizer::get_options(unsigned char synth, options &opts)
+ValonSynth::get_options(enum ValonSynth::Synthesizer synth, options &opts)
 {
     unsigned char bytes[24];
     unsigned char checksum;
@@ -170,7 +247,8 @@ Synthesizer::get_options(unsigned char synth, options &opts)
 }
 
 bool
-Synthesizer::set_options(unsigned char synth, const options &opts)
+ValonSynth::set_options(enum ValonSynth::Synthesizer synth,
+                        const options &opts)
 {
     unsigned char bytes[26];
     unsigned char checksum;
@@ -179,24 +257,24 @@ Synthesizer::set_options(unsigned char synth, const options &opts)
     s.read(&bytes[1], 24);
     s.read(&checksum, 1);
 #ifdef VERIFY_CHECKSUM
-    if(!verify_checksum(bytes, 24, checksum)) return;
+    if(!verify_checksum(&bytes[1], 24, checksum)) return;
 #endif//VERIFY_CHECKSUM
     //unsigned int reg0, reg1;
     unsigned int reg2;
     //unsigned int reg3, reg4, reg5;
-    //unpack_int(&bytes[0], reg0);
-    //unpack_int(&bytes[4], reg1);
-    unpack_int(&bytes[8], reg2);
-    //unpack_int(&bytes[12], reg3);
-    //unpack_int(&bytes[16], reg4);
-    //unpack_int(&bytes[20], reg5);
-    reg2 &= 0x9cffffff;
+    //unpack_int(&bytes[1], reg0);
+    //unpack_int(&bytes[5], reg1);
+    unpack_int(&bytes[9], reg2);
+    //unpack_int(&bytes[13], reg3);
+    //unpack_int(&bytes[17], reg4);
+    //unpack_int(&bytes[21], reg5);
+    reg2 &= 0x9c003fff;
     reg2 |= (((opts.low_spur & 1) << 30) | ((opts.low_spur & 1) << 29) |
              ((opts.double_ref & 1) << 25) | ((opts.half_ref & 1) << 24) |
              ((opts.r & 0x03ff) << 14));
     // Write values to hardware
     bytes[0] = 0x00 | synth;
-    pack_int(reg2, &bytes[8]);
+    pack_int(reg2, &bytes[9]);
     bytes[25] = generate_checksum(bytes, 25);
     s.write(bytes, 26);
     s.read(bytes, 1);
@@ -207,7 +285,7 @@ Synthesizer::set_options(unsigned char synth, const options &opts)
 // Reference Select //
 //------------------//
 bool
-Synthesizer::get_ref_select(bool &e_not_i)
+ValonSynth::get_ref_select(bool &e_not_i)
 {
     unsigned char bytes;
     unsigned char checksum;
@@ -223,7 +301,7 @@ Synthesizer::get_ref_select(bool &e_not_i)
 }
 
 bool
-Synthesizer::set_ref_select(bool e_not_i)
+ValonSynth::set_ref_select(bool e_not_i)
 {
     unsigned char bytes[3];
     bytes[0] = 0x06;
@@ -238,7 +316,7 @@ Synthesizer::set_ref_select(bool e_not_i)
 // VCO Range //
 //-----------//
 bool
-Synthesizer::get_vco_range(unsigned char synth, vco_range &vcor)
+ValonSynth::get_vco_range(enum ValonSynth::Synthesizer synth, vco_range &vcor)
 {
     unsigned char bytes[4];
     unsigned char checksum;
@@ -255,7 +333,8 @@ Synthesizer::get_vco_range(unsigned char synth, vco_range &vcor)
 }
 
 bool
-Synthesizer::set_vco_range(unsigned char synth, const vco_range &vcor)
+ValonSynth::set_vco_range(enum ValonSynth::Synthesizer synth,
+                          const vco_range &vcor)
 {
     unsigned char bytes[6];
     bytes[0] = 0x03 | synth;
@@ -271,7 +350,7 @@ Synthesizer::set_vco_range(unsigned char synth, const vco_range &vcor)
 // Phase Lock //
 //------------//
 bool
-Synthesizer::get_phase_lock(unsigned char synth, bool &locked)
+ValonSynth::get_phase_lock(enum ValonSynth::Synthesizer synth, bool &locked)
 {
     unsigned char bytes;
     unsigned char checksum;
@@ -283,19 +362,19 @@ Synthesizer::get_phase_lock(unsigned char synth, bool &locked)
     if(!verify_checksum(&bytes, 1, checksum)) return false;
 #endif//VERIFY_CHECKSUM
     int mask;
-    // Synthesizer A
-    if(synth == Synthesizer::A) mask = 0x20;
-    // Synthesizer B
+    // ValonSynth A
+    if(synth == ValonSynth::A) mask = 0x20;
+    // ValonSynth B
     else mask = 0x10;
     locked = bytes & mask;
     return true;
 }
 
 //-------------------//
-// Synthesizer Label //
+// ValonSynth Label //
 //-------------------//
 bool
-Synthesizer::get_label(unsigned char synth, char *label)
+ValonSynth::get_label(enum ValonSynth::Synthesizer synth, char *label)
 {
     unsigned char bytes[16];
     unsigned char checksum;
@@ -311,7 +390,7 @@ Synthesizer::get_label(unsigned char synth, char *label)
 }
 
 bool
-Synthesizer::set_label(unsigned char synth, const char *label)
+ValonSynth::set_label(enum ValonSynth::Synthesizer synth, const char *label)
 {
     unsigned char bytes[18];
     bytes[0] = 0x02 | synth;
@@ -326,7 +405,7 @@ Synthesizer::set_label(unsigned char synth, const char *label)
 // Flash //
 //-------//
 bool
-Synthesizer::flash()
+ValonSynth::flash()
 {
     unsigned char bytes[2];
     bytes[0] = 0x40;
@@ -336,11 +415,27 @@ Synthesizer::flash()
     return bytes[0] == ACK;
 }
 
+//------------------//
+// EDPF Calculation //
+//------------------//
+float
+ValonSynth::getEPDF(enum ValonSynth::Synthesizer synth)
+{
+    options opts;
+    float reference = get_reference() / 1e6;
+    get_options(synth, opts);
+
+    if(opts.double_ref) reference *= 2.0;
+    if(opts.half_ref) reference /= 2.0;
+    if(opts.r > 1) reference /= opts.r;
+    return reference;
+}
+
 //----------//
 // Checksum //
 //----------//
 unsigned char
-Synthesizer::generate_checksum(const unsigned char *bytes, int length)
+ValonSynth::generate_checksum(const unsigned char *bytes, int length)
 {
     unsigned int sum = 0;
     for(int i = 0; i < length; ++i)
@@ -351,8 +446,8 @@ Synthesizer::generate_checksum(const unsigned char *bytes, int length)
 }
 
 bool
-Synthesizer::verify_checksum(const unsigned char *bytes, int length,
-                             unsigned char checksum)
+ValonSynth::verify_checksum(const unsigned char *bytes, int length,
+                            unsigned char checksum)
 {
     return (generate_checksum(bytes, length) == checksum);
 }
@@ -361,7 +456,7 @@ Synthesizer::verify_checksum(const unsigned char *bytes, int length,
 // Bit Packing //
 //-------------//
 void
-Synthesizer::pack_freq_registers(const registers &regs, unsigned char *bytes)
+ValonSynth::pack_freq_registers(const registers &regs, unsigned char *bytes)
 {
     int dbf = 0;
     switch(regs.dbf)
@@ -397,7 +492,7 @@ Synthesizer::pack_freq_registers(const registers &regs, unsigned char *bytes)
 }
 
 void
-Synthesizer::unpack_freq_registers(const unsigned char *bytes, registers &regs)
+ValonSynth::unpack_freq_registers(const unsigned char *bytes, registers &regs)
 {
     unsigned int reg0, reg1;
     //unsigned int reg2, reg3;
@@ -425,7 +520,7 @@ Synthesizer::unpack_freq_registers(const unsigned char *bytes, registers &regs)
 }
 
 void
-Synthesizer::pack_int(unsigned int num, unsigned char *bytes)
+ValonSynth::pack_int(unsigned int num, unsigned char *bytes)
 {
     bytes[0] = (num >> 24) & 0xff;
     bytes[1] = (num >> 16) & 0xff;
@@ -434,21 +529,21 @@ Synthesizer::pack_int(unsigned int num, unsigned char *bytes)
 }
 
 void
-Synthesizer::pack_short(unsigned short num, unsigned char *bytes)
+ValonSynth::pack_short(unsigned short num, unsigned char *bytes)
 {
     bytes[0] = (num >> 8) & 0xff;
     bytes[1] = (num) & 0xff;
 }
 
 void
-Synthesizer::unpack_int(const unsigned char *bytes, unsigned int &num)
+ValonSynth::unpack_int(const unsigned char *bytes, unsigned int &num)
 {
     num = ((int(bytes[0]) << 24) + (int(bytes[1]) << 16) +
            (int(bytes[2]) << 8) + int(bytes[3]));
 }
 
 void
-Synthesizer::unpack_short(const unsigned char *bytes, unsigned short &num)
+ValonSynth::unpack_short(const unsigned char *bytes, unsigned short &num)
 {
     num = (int(bytes[0]) << 8) + int(bytes[1]);
 }

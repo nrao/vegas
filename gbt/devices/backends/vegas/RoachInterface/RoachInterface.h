@@ -5,15 +5,11 @@
 #include <string>
 #include <vector>
 // Local
-#include "Message.h"
+#include "KatcpMessage.h"
 // YGOR
-//#include <tcpclient.h>
+#include "tcpclient.h"
 
 
-typedef std::string      Arg;
-typedef std::vector<Arg> Args;
-
-class Message;
 class TcpClient;
 
 class RoachInterface
@@ -22,12 +18,12 @@ public:
     RoachInterface(const char *addr, short port);
     ~RoachInterface();
 
-    bool send_message(const Message &msg);
-    bool send_message(char type, Arg name, int nargs = 0, ...); 
-    Message recv_message();
+    bool sendMessage(const KatcpMessage &msg);
+    bool sendMessage(char type, KatcpArg name, int nargs = 0, ...); 
+    KatcpMessage recvMessage();
 
 private:
-    //TCPClient m_tcp;
+    TCPClient m_tcp;
 };
 
 #endif//ROACH_INTERFACE_H

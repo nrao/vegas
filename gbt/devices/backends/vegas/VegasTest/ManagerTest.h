@@ -20,26 +20,49 @@
 //#	P. O. Box 2
 //#	Green Bank, WV 24944-0002 USA
 
-#ifndef VEGASMSG_H
-#define VEGASMSG_H
+#ifndef MANAGERTEST_H
+#define MANAGERTEST_H
 
-#include "GbtMsg.h"
+// Local
+#include "VegasManager.h"
+// CPPUNIT
+#include <cppunit/extensions/HelperMacros.h>
 
-struct VegasMsg
+class ManagerTest : public CppUnit::TestCase
 {
-    enum
-    {
-        //!!! Need to edit GbtMsg to add this value
-      Vegas    = GbtMsg::Vegas + 1*MsgDef::Subdevice,
-      BankAMgr = GbtMsg::Vegas + 2*MsgDef::Subdevice,
-      BankBMgr = GbtMsg::Vegas + 3*MsgDef::Subdevice,
-      BankCMgr = GbtMsg::Vegas + 4*MsgDef::Subdevice,
-      BankDMgr = GbtMsg::Vegas + 5*MsgDef::Subdevice,
-      BankEMgr = GbtMsg::Vegas + 6*MsgDef::Subdevice,
-      BankFMgr = GbtMsg::Vegas + 7*MsgDef::Subdevice,
-      BankGMgr = GbtMsg::Vegas + 8*MsgDef::Subdevice,
-      BankHMgr = GbtMsg::Vegas + 9*MsgDef::Subdevice,
-    };
+    CPPUNIT_TEST_SUITE(ManagerTest);
+        CPPUNIT_TEST(testCreate);
+        CPPUNIT_TEST(testActivate);
+        // Parameter tests
+        CPPUNIT_TEST(test_cal);
+    CPPUNIT_TEST_SUITE_END();
+
+public:
+    ManagerTest();
+
+    void setUp();
+    void tearDown();
+
+protected:
+    void assertStatus(const Msg::Level status = Msg::Clear);
+    void waitForState(ManagerId::State);
+
+    //
+    void testCreate();
+    void testActivate();
+
+    // Parameters
+    void test_cal();
+
+private:
+    VegasManager *vegas_manager;
 };
 
-#endif//VEGASMSG_H
+inline
+ManagerTest::ManagerTest()
+    :
+    CppUnit::TestCase()
+{
+}
+
+#endif//MANAGERTEST_H

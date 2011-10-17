@@ -26,7 +26,7 @@
 #include "ManagerId.h"
 
 
-const char * const SpectrometerChildName[] =
+const char * const vegasChildName[] =
 {
     "BankAMgr",
     "BankBMgr",
@@ -36,6 +36,11 @@ const char * const SpectrometerChildName[] =
     "BankFMgr",
     "BankGMgr",
     "BankHMgr",
+};
+
+struct vco_range
+{
+    short min, max;
 };
 
 struct VegasCoordinatorId
@@ -55,8 +60,20 @@ struct VegasCoordinatorId
 
     enum index
     {
-        dummy = ManagerId::ParameterCnt,
+        // Clock synthesizer parameters
+        flash = ManagerId::ParameterCnt,
+        frequency,
+        label,
+        ref_freq,
+        ref_freq_sel,
+        vco_range,
         ParameterCnt
+    };
+
+    // Constants
+    enum
+    {
+        quadrants = 8
     };
 };
 

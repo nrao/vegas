@@ -58,6 +58,7 @@ TOPLEVEL=../../../../..
 #Section 2: Common Variables and target rules
 
 include $(YGOR_ROOT)/include/CommonRules.mk
+include $(YGOR_ROOT)/include/CoreFiles.mk
 include $(YGOR_ROOT)/include/Sampler.mk
 include $(YGOR_ROOT)/include/DatabaseAccess.mk
 
@@ -71,7 +72,9 @@ USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Sequencer
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Threads
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/DeviceAccess
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/DatabaseAccess
+USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Serial
 USER_INCLUDES += -I../../VEGAS
+USER_INCLUDES += -I../../Synth
 #USER_INCLUDES +=
 
 SYSLIBS += -ldl

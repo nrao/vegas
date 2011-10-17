@@ -60,6 +60,7 @@ TOPLEVEL=../../../../..
 #Section 2: Common Variables and target rules
 
 include $(YGOR_ROOT)/include/CommonRules.mk
+include $(YGOR_ROOT)/include/CoreFiles.mk
 
 #############################################################################
 # Section 3: Additional Developer defined Rules and Targets.

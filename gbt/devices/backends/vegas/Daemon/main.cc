@@ -90,6 +90,18 @@ void InitManager()
         assert(0);
     }
 
+//     panelAccess("VEGAS", "VEGAS");
+//     panelAccess("VEGAS", "BankAMgr");
+//     panelAccess("VEGAS", "BankBMgr");
+//     panelAccess("VEGAS", "BankCMgr");
+//     panelAccess("VEGAS", "BankDMgr");
+//     panelAccess("VEGAS", "BankEMgr");
+//     panelAccess("VEGAS", "BankFMgr");
+//     panelAccess("VEGAS", "BankGMgr");
+//     panelAccess("VEGAS", "BankHMgr");
+
+    PanelData::debugLevel = PANEL_DEBUG_MSGS;
+
     manager.reset(new VegasCoordinator);
     server.reset(new PanelServer(manager.get(), rpc_number));
     cerr << "Initializing " << manager_name << " Manager " << endl;

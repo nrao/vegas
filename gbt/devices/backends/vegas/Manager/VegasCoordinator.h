@@ -36,6 +36,38 @@ public:
     VegasCoordinator();
     ~VegasCoordinator();
 
+    void sequence();
+
+protected:
+    void initializeParameters();
+
+    //------------------------------//
+    // Clock Synthesizer Parameters //
+    //------------------------------//
+    int flashAct(const int &flash);
+    int flashChk(const int &flash);
+    void flashDep(int &flash);
+
+    int frequencyAct(const float &frequency);
+    int frequencyChk(const float &frequency);
+    void frequencyDep(float &frequency);
+
+    int labelAct(const char *label);
+    int labelChk(const char *label);
+    void labelDep(char *label);
+
+    int ref_freqAct(const int &ref_freq);
+    int ref_freqChk(const int &ref_freq);
+    void ref_freqDep(int &ref_freq);
+
+    int ref_freq_selAct(const int &ref_freq_sel);
+    int ref_freq_selChk(const int &ref_freq_sel);
+    void ref_freq_selDep(int &ref_freq_sel);
+
+    int vco_rangeAct(const vco_range &vcor);
+    int vco_rangeChk(const vco_range &vcor);
+    void vco_rangeDep(vco_range &vcor);
+
 private:
     PanelServer *server[VegasCoordinatorId::childCount];
     Manager *childManager[VegasCoordinatorId::childCount];
