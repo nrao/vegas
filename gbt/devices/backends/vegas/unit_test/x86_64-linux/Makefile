@@ -68,18 +68,19 @@ include $(YGOR_ROOT)/include/CppUnit.mk
 #############################################################################
 # Section 3: Additional Developer defined Rules and Targets.
 #
-VEGASLIBS +=  ../../VegasTest/$(ARCH)/libVegasTest.a
-USRLIBS +=  $(YGOR_ROOT)/libraries/Sampler/$(ARCH)/libSampler.a
-USRLIBS +=  $(YGOR_ROOT)/libraries/TaskLib/$(ARCH)/libTaskLib.a
-USRLIBS +=  $(YGOR_ROOT)/libraries/IFDevice/$(ARCH)/libIFDevice.a
-USRLIBS +=  $(YGOR_ROOT)/libraries/Util/$(ARCH)/libUtil.a
+VEGASLIBS += ../../VegasTest/$(ARCH)/libVegasTest.a
+VEGASLIBS += ../../Manager/$(ARCH)/libManager.a
+VEGASLIBS += ../../RoachInterface/$(ARCH)/libRoachInterface.a
+USRLIBS += $(YGOR_ROOT)/libraries/Sampler/$(ARCH)/libSampler.a
+USRLIBS += $(YGOR_ROOT)/libraries/TaskLib/$(ARCH)/libTaskLib.a
+USRLIBS += $(YGOR_ROOT)/libraries/IFDevice/$(ARCH)/libIFDevice.a
+USRLIBS += $(YGOR_ROOT)/libraries/Util/$(ARCH)/libUtil.a
 USRLIBS += $(YGOR_ROOT)/libraries/Threads/$(ARCH)/libThreads.a
 
-USRLIBS :=  $(VEGASLIBS) ../../Manager/$(ARCH)/libManager.a $(USRLIBS)
+USRLIBS :=  $(VEGASLIBS) $(USRLIBS)
 
 USER_INCLUDES += -I../../Manager
 USER_INCLUDES += -I../../VegasTest
-USER_INCLUDES += -I../../VEGAS
 USER_INCLUDES += -I$(GB_ROOT)/headers
 USER_INCLUDES += -I$(TOPLEVEL)/headers
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Threads

@@ -22,7 +22,9 @@ bool
 RoachInterface::sendMessage(const KatcpMessage &msg)
 {
     KatcpArg raw_msg = msg.serialize();
-    size_t n = m_tcp.write(const_cast<char*>(raw_msg.c_str()), raw_msg.size());
+    size_t n = raw_msg.size();
+    // size_t n = m_tcp.write(const_cast<char*>(raw_msg.c_str()),
+    //                        raw_msg.size());
     return n == raw_msg.size();
 }
 
@@ -37,13 +39,13 @@ RoachInterface::sendMessage(char type, KatcpArg name, int nargs, ...)
         m.add_arg(va_arg(args, char*));
     }
     va_end(args);
-    return send_message(m);
+    return sendMessage(m);
 }
 
 KatcpMessage
 RoachInterface::recvMessage()
 {
-    char buffer[100];
-    m_tcp.read(buffer, 100);
+    char buffer[100] = "!wordwrite ok 1";
+    //m_tcp.read(buffer, 100);
     return KatcpMessage::parse(buffer);
 }

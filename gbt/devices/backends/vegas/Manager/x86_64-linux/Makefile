@@ -68,13 +68,15 @@ include $(YGOR_ROOT)/include/DatabaseAccess.mk
 
 USER_INCLUDES += -I$(GB_ROOT)/headers
 USER_INCLUDES += -I$(TOPLEVEL)/headers
-USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Sequencer
-USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Threads
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/DeviceAccess
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/DatabaseAccess
+USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Sequencer
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Serial
-USER_INCLUDES += -I../../VEGAS
+USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Sockets
+USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Threads
+USER_INCLUDES += -I../../RoachInterface
 USER_INCLUDES += -I../../Synth
+USER_INCLUDES += -I../../VEGAS
 #USER_INCLUDES +=
 
 SYSLIBS += -ldl

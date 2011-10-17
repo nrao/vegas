@@ -21,6 +21,7 @@
 //#	Green Bank, WV 24944-0002 USA
 
 // Local
+#include "RoachInterface.h"
 #include "VegasManager.h"
 #include "VegasManagerId.h"
 
@@ -751,7 +752,7 @@ VegasManager::acc_lenAct(const int &acc_len)
 {
     std::ostringstream parse;
     parse << acc_len;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "acc_len", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -759,7 +760,7 @@ VegasManager::acc_lenAct(const int &acc_len)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -782,7 +783,7 @@ VegasManager::acc_len_selAct(const int &acc_len_sel)
 {
     std::ostringstream parse;
     parse << acc_len_sel;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "acc_len_sel", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -790,7 +791,7 @@ VegasManager::acc_len_selAct(const int &acc_len_sel)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -817,7 +818,7 @@ VegasManager::armAct(const int &arm)
 {
     std::ostringstream parse;
     parse << arm;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "arm", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -825,7 +826,7 @@ VegasManager::armAct(const int &arm)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -852,7 +853,7 @@ VegasManager::adc_snap0_ctrlAct(const int &adc_snap0_ctrl)
 {
     std::ostringstream parse;
     parse << adc_snap0_ctrl;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "adc_snap0_ctrl", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -860,7 +861,7 @@ VegasManager::adc_snap0_ctrlAct(const int &adc_snap0_ctrl)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -887,7 +888,7 @@ VegasManager::adc_snap1_ctrlAct(const int &adc_snap1_ctrl)
 {
     std::ostringstream parse;
     parse << adc_snap1_ctrl;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "adc_snap1_ctrl", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -895,7 +896,7 @@ VegasManager::adc_snap1_ctrlAct(const int &adc_snap1_ctrl)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -922,7 +923,7 @@ VegasManager::dest_ipAct(const int &dest_ip)
 {
     std::ostringstream parse;
     parse << dest_ip;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "dest_ip", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -930,7 +931,7 @@ VegasManager::dest_ipAct(const int &dest_ip)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -953,7 +954,7 @@ VegasManager::dest_ip_selAct(const int &dest_ip_sel)
 {
     std::ostringstream parse;
     parse << dest_ip_sel;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "dest_ip_sel", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -961,7 +962,7 @@ VegasManager::dest_ip_selAct(const int &dest_ip_sel)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -988,7 +989,7 @@ VegasManager::dest_portAct(const int &dest_port)
 {
     std::ostringstream parse;
     parse << dest_port;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "dest_port", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -996,7 +997,7 @@ VegasManager::dest_portAct(const int &dest_port)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -1019,7 +1020,7 @@ VegasManager::dest_port_selAct(const int &dest_port_sel)
 {
     std::ostringstream parse;
     parse << dest_port_sel;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "dest_port_sel", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -1027,7 +1028,7 @@ VegasManager::dest_port_selAct(const int &dest_port_sel)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -1054,7 +1055,7 @@ VegasManager::sync_periodAct(const int &sync_period)
 {
     std::ostringstream parse;
     parse << sync_period;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "sync_period", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -1062,7 +1063,7 @@ VegasManager::sync_periodAct(const int &sync_period)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;
@@ -1085,7 +1086,7 @@ VegasManager::sync_period_selAct(const int &sync_period_sel)
 {
     std::ostringstream parse;
     parse << sync_period_sel;
-    ri->sendMessage(KatcpType::REQUEST, "wordwrite",
+    ri->sendMessage(KatcpType::REQUEST, "wordwrite", 3,
                     "sync_period_sel", "0", parse.str().c_str());
     
     // TBF: This is potentially a bad idea; if the ROACH fails to generate
@@ -1093,7 +1094,7 @@ VegasManager::sync_period_selAct(const int &sync_period_sel)
     KatcpMessage reply;
     do
     {
-        reply = ri.recvMessage();
+        reply = ri->recvMessage();
     } while((reply.type() != KatcpType::REPLY) &&
             (reply.name() != "wordwrite"));
     return reply.args()[0] == Katcp::success;

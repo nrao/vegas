@@ -65,6 +65,7 @@ private:
 };
 
 template <>
+inline
 void
 KatcpMessage::add_arg<KatcpArg>(KatcpArg arg)
 {
@@ -72,6 +73,7 @@ KatcpMessage::add_arg<KatcpArg>(KatcpArg arg)
 }
 
 template <>
+inline
 void
 KatcpMessage::add_arg<const char*>(const char *arg)
 {
@@ -79,6 +81,7 @@ KatcpMessage::add_arg<const char*>(const char *arg)
 }
 
 template <typename T>
+inline
 void
 KatcpMessage::add_arg(T arg)
 {

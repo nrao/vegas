@@ -7,7 +7,7 @@
 // Local
 #include "KatcpMessage.h"
 // YGOR
-#include "tcpclient.h"
+//#include "tcpclient.h"
 
 
 class TcpClient;
@@ -23,7 +23,7 @@ public:
     KatcpMessage recvMessage();
 
 private:
-    TCPClient m_tcp;
+    //TCPClient m_tcp;
 };
 
 #endif//ROACH_INTERFACE_H

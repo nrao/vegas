@@ -69,6 +69,7 @@ include $(YGOR_ROOT)/include/CppUnit.mk
 #
 #USRLIBS +=  
 USER_INCLUDES += -I../../Manager
+USER_INCLUDES += -I../../RoachInterface
 USER_INCLUDES += -I$(GB_ROOT)/headers
 USER_INCLUDES += -I$(TOPLEVEL)/headers
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Threads

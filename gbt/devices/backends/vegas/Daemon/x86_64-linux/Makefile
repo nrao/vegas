@@ -67,6 +67,8 @@ include $(YGOR_ROOT)/include/DatabaseAccess.mk
 # Section 3: Additional Developer defined Rules and Targets.
 #
 VEGASLIBS += ../../Manager/$(ARCH)/libManager.a
+VEGASLIBS += ../../RoachInterface/$(ARCH)/libRoachInterface.a
+VEGASLIBS += ../../Synth/$(ARCH)/libSynth.a
 VEGASLIBS += ../../VEGAS/$(ARCH)/libVEGAS.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/McTime/$(ARCH)/libMcTime.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/DeviceAccess/$(ARCH)/libDeviceAccess.a
@@ -76,12 +78,12 @@ VEGASLIBS += $(YGOR_ROOT)/libraries/Threads/$(ARCH)/libThreads.a
 VEGASLIBS += $(YGOR_ROOT)/libraries/DatabaseAccess/$(ARCH)/libDatabaseAccess.a
 
 USRLIBS := $(VEGASLIBS) $(USRLIBS)
-USER_INCLUDES += -I../../Manager
 USER_INCLUDES += -I$(GB_ROOT)/headers
 USER_INCLUDES += -I$(TOPLEVEL)/headers
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/McTime
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/DeviceAccess
 USER_INCLUDES += -I$(YGOR_ROOT)/libraries/Threads
+USER_INCLUDES += -I../../Manager
 USER_INCLUDES += -I../../VEGAS
 
 SYSLIBS += -ldl

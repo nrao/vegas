@@ -25,11 +25,11 @@
 
 // Local
 #include "Parameter.h"
-#include "RoachInterface.h"
 #include "VegasManagerId.h"
 #include "VegasMsg.h"
 
-class Sampler;
+class RoachInterface;
+//class Sampler;
 
 class VegasManager : public ManagerSynchronous
 {
